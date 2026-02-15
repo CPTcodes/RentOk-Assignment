@@ -107,7 +107,7 @@ describe("RentOk Login - Phone Number Screen", () => {
   });
 
   it("should show toast message for wrong OTP", async () => {
-    await LoginPage.enterPhoneNumber("8745985632");
+    await LoginPage.enterPhoneNumber("8569854752");
     await LoginPage.tapSendOtp();
 
     await OtpPage.enterOtp("000000");
@@ -132,7 +132,7 @@ describe("RentOk Login - Phone Number Screen", () => {
   });
 
   it("should show toast message for OTPs with less than 6 digits", async () => {
-    await LoginPage.enterPhoneNumber("8428475632");
+    await LoginPage.enterPhoneNumber("8456475632");
     await LoginPage.tapSendOtp();
 
     await OtpPage.enterOtp("0000");
@@ -158,13 +158,12 @@ describe("RentOk Login - Phone Number Screen", () => {
     expect(toastText).toContain("Max limit reached for this otp verification");
   });
 
-  it.only("should handle gracefully when internet is turned off and show toast", async () => {
+  it("should handle gracefully when internet is turned off and show toast", async () => {
     await LoginPage.enterPhoneNumber("8745985632");
 
-    // await dataOffhelper.setNetwork("off");
-    await driver.setNetworkConnection(0); // 0 = Airplane mode (all off)
+    
+    await driver.setNetworkConnection(0); 
     await driver.pause(5000);
-
     await LoginPage.tapSendOtp();
 
     const toast = await $("//android.widget.Toast");
@@ -172,8 +171,8 @@ describe("RentOk Login - Phone Number Screen", () => {
 
     expect(toastText).toContain("Something went wrong!");
 
-    // await dataOffhelper.setNetwork("on");
-    await driver.setNetworkConnection(6); // 6 = All network on (WiFi + Data)   
+   
+    await driver.setNetworkConnection(6); 
     await driver.pause(5000);
 
     await LoginPage.tapSendOtp();
